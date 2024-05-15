@@ -21,6 +21,10 @@
 
 
 module IFetch(
-
+    input clk,
+    input [13:0]addr,
+    output [31:0] instruction
     );
+    wire [31:0] instruction;
+    IMem imem(.clk(clk),.addr(addr),.dout(instruction));
 endmodule
