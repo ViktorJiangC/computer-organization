@@ -26,5 +26,4 @@ module ip_mem(
     output [31:0] dout
     );
     prgrom urom(.clka(clk), .addra(addr), .douta(dout));
-//useless fucking ipmem
 endmodule
