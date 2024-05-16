@@ -1,5 +1,9 @@
 ## 开发文档
 
+# 注意
+
+ip core在本地完成，注意保持命名一致
+
 # 当前进度
 
 仅完成了各基础模块的开发和测试，包括DMem, IMem, ALU, Controller, Registers, ImmGen

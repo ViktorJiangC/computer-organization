@@ -18,13 +18,29 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
-
 module IFetch(
     input clk,
-    input [13:0]addr,
-    output [31:0] instruction
+    input rst,//low active
+    input zero,
+    input branch,
+    input [31:0] imm32,
+    output [31:0] inst
     );
-    wire [31:0] instruction;
-    IMem imem(.clk(clk),.addr(addr),.dout(instruction));
+reg [31:0]PC = 32'b0;
+always@(negedge clk)begin
+    if(!rst)begin
+        PC<=0;
+    end
+    else begin
+        if(branch&zero)begin
+            PC<=PC+imm32;
+        end
+        else begin
+            PC<=PC+4;
+        end
+    end
+end
+
+prgrom urom(.clka(clk),.addra(PC[15:2]),.douta(inst));
+    
 endmodule
