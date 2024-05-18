@@ -64,4 +64,5 @@ always @(*) begin
     default: decoded = 32'b0;
     endcase
 end
+
 endmodule
