@@ -10,26 +10,28 @@ reg [31:0] registers[31:0];
 reg [11:0] imm_12;
 reg [19:0] imm_20;
 reg [6:0] opcode;
-//bug at 1100011,0010011,0000011，
+//bug at 0000011
 always @(*) begin
     opcode = inst[6:0];
     case(opcode) 
-    7'b0000011://I-type 
+    7'b0010011:begin//I-type *
         imm_12 = inst[31:20];
-        imm32 = imm_12;
-    7'b0000111: begin//??
+        imm32 = {{20{imm_12[11]}}, imm_12};
+    end
+    7'b0110011: begin//R-type
         imm32 = 32'b0;
     end
-    7'b0100011: begin//S-type
+    7'b0100011: begin//S-type *
         imm_12[4:0] = inst[11:7];
         imm_12[11:5] = inst[31:25];
+        imm32 = {{20{imm_12[11]}}, imm_12};
     end
-    7'b0001011: begin//B-type
+    7'b1100011: begin//B-type *
         imm_12[11] = inst[31];
         imm_12[9:4] = inst[30:25];
         imm_12[3:0] = inst[11:8];
         imm_12[10] = inst[7];
-        imm32 = imm_12;
+        imm32 = {{20{imm_12[11]}}, imm_12};
         imm32 = imm32 << 1;
     end
     7'b0011011: begin//U-type
@@ -37,12 +39,16 @@ always @(*) begin
         imm32 = {imm_20,12'b0};
     end
     7'b1101111: begin//J-type
-        imm_12[19] = inst[31];
-        imm_12[9:0] = inst[30:21];
-        imm_12[10] = inst[20];
-        imm_12[8:1] = inst[19:12];
-        imm32 = imm_12;
+        imm_20[19] = inst[31];
+        imm_20[9:0] = inst[30:21];
+        imm_20[10] = inst[20];
+        imm_20[18:11] = inst[19:12];
+        imm32 = {{12{imm_20[19]}}, imm_20};
         imm32 = imm32 << 1;
+    end
+    7'b0000011: begin//I-type *
+        imm_12 = inst[31:20];
+        imm32 = {{20{imm_12[11]}}, imm_12};
     end
     default: imm32 = 32'b0;
     endcase
