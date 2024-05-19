@@ -6,5 +6,5 @@
     output[31:0] dout
 );
  
- RAM udram(.clka(clk), .wea(MemWrite), .addra(addr[13:0]), .dina(din), .douta(dout));
- endmodule
+RAM udram(.clka(clk), .wea(MemWrite), .addra(addr[13:0]), .dina(din), .douta(dout));
+endmodule

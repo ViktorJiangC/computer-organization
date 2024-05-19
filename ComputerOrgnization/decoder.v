@@ -57,6 +57,7 @@ end
 wire[4:0] rd = inst[11:7];
 assign rs1Data = (inst[19:15] == 5'd0) ? 32'd0 : registers[inst[19:15]];
 assign rs2Data = (inst[24:20] == 5'd0) ? 32'd0 : registers[inst[24:20]];
+
 always @(posedge clk) begin
     if (!rst) begin
         registers[0] <= 32'd0;
