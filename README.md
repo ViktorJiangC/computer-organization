@@ -23,24 +23,6 @@ Datamemory 同理
 # 模块
 
 ```riscv
-module DMem(
-    input clk, 
-    input MemRead,MemWrite,
-    input [31:0] addr, 
-    input [31:0] din,
-    output[31:0] dout
-    );
-```
-
-```riscv
-module IMem(
-    input clk,
-    input [13:0]addr,
-    output [31:0] dout
-    );
-```
-
-```riscv
 module ALU(
     input ALUSrc,
     input [1:0] ALUOp,
@@ -68,20 +50,23 @@ module Controller(
 ```
 
 ```riscv
-module ImmGen(
-    input [31:0] instruction, //riscv instruction
-    output reg [31:0] decoded //decoded immediate
-    );
+module Decoder(
+    input clk, rst,
+    input regWrite,
+    input [31:0] inst,
+    input [31:0] writeData,
+    output [31:0] rs1Data, rs2Data,
+    output reg [31:0] imm32 
+);
 ```
 
 ```riscv
-module Registers(
-    input [4:0]Readregister1,
-    input [4:0]Readregister2,
-    input [4:0]Writeregister,
-    input [31:0]Writedata,
-    input RegWrite,
-    output reg [31:0]Readdata1,
-    output reg [31:0]Readdata2
+module IFetch(
+    input clk,
+    input rst,//low active
+    input zero,
+    input branch,
+    input [31:0] imm32,
+    output [31:0] inst
     );
 ```
